@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><title>GraphQL Test</title></head>
+<script>
+    function run() {
+        fetch("http://localhost:8080/graphql", {
+            method: 'POST',
+            body: JSON.stringify({
+                query: `{
+                  info {
+                    serverTime
+                    props(key: "PID") {
+                      value
+                    }
+                  }
+                  products(id:3){
+                    store{
+                      name
+                    }
+                  }
+                  stores{
+                    products{
+                      price
+                    }
+                  }
+                }`
+            })
+        })
+            .then(resp => resp.json())
+            .catch(e => e)
+            .then(text =>
+                document.getElementById("out").textContent = JSON.stringify(text, null, ' ')
+            )
+    }
+</script>
+<body onload="run()">
+<pre id="out"></pre>
+</body>
+</html>
