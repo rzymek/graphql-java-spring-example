@@ -6,8 +6,7 @@ import graphql.schema.GraphQLObjectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
 import static graphql.schema.GraphQLSchema.newSchema;
 
@@ -25,16 +24,11 @@ public class RepositorySchema {
     }
 
     public Object execute(String queryString) {
-        Object returnData;
-
         if (!isIntrospectionQuery(queryString)) {
-            returnData = graphQL.execute(queryString,query).getData();
+            return graphQL.execute(queryString, query).getData();
         } else {
-            Map<String, Object> result = new HashMap<>();
-            result.put("data", graphQL.execute(queryString).getData());
-            returnData = result;
+            return Collections.singletonMap("data", graphQL.execute(queryString).getData());
         }
-        return returnData;
     }
 
     private GraphQL createGraphQLSchema() throws IllegalAccessException, InstantiationException, NoSuchMethodException {
