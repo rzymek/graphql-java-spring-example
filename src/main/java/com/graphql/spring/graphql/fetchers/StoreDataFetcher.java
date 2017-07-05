@@ -13,13 +13,16 @@ import org.springframework.stereotype.Component;
 public class StoreDataFetcher implements DataFetcher, ApplicationContextAware {
 
     private static ApplicationContext context;
+
     @Override
     public Object get(DataFetchingEnvironment environment) {
         StoreRetriever productRetriever = context.getBean(StoreRetriever.class);
-        int store_id = environment.getArgument("store_id");
-        Store product = productRetriever.getStore(store_id);
+        Integer storeId = environment.getArgument("storeId");
+        if(storeId == null) {
+            return null;
+        }
 
-        return product;
+        return productRetriever.getStore(storeId);
     }
 
     @Override
