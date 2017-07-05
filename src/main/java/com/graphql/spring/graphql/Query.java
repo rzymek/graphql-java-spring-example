@@ -1,35 +1,45 @@
 package com.graphql.spring.graphql;
 
-import com.graphql.spring.domain.Product;
-import com.graphql.spring.domain.Store;
-import com.graphql.spring.graphql.fetchers.StoreDataFetcher;
-import graphql.annotations.GraphQLDataFetcher;
+import com.graphql.spring.data.Info;
+import com.graphql.spring.jpa.Product;
+import com.graphql.spring.jpa.Store;
+import com.graphql.spring.jpa.repositories.ProductRepository;
+import com.graphql.spring.jpa.repositories.StoreRepository;
 import graphql.annotations.GraphQLField;
 import graphql.annotations.GraphQLName;
-import com.graphql.spring.graphql.fetchers.ProductDataFetcher;
-import com.graphql.spring.graphql.fetchers.ProductsDataFetcher;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class Query {
+    private final ProductRepository productRepository;
+    private final StoreRepository storeRepository;
 
-    @GraphQLField
-    @GraphQLDataFetcher(ProductDataFetcher.class)
-    public Product product(@GraphQLName("product_id") int product_id) {
-        return null;
+    public Query(ProductRepository productRepository, StoreRepository storeRepository) {
+        this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
     }
 
     @GraphQLField
-    @GraphQLDataFetcher(StoreDataFetcher.class)
-    public Store store(@GraphQLName("store_id") int store_id) {
-        return null;
+    public List<Product> products(@GraphQLName("id") Integer id) {
+        if(id != null) {
+            return Collections.singletonList(productRepository.findOne(id));
+        }else {
+            return productRepository.findAll();
+        }
     }
 
     @GraphQLField
-    @GraphQLDataFetcher(ProductsDataFetcher.class)
-    public List<Product> products() { return null;}
+    public List<Store> stores() {
+        return storeRepository.findAll();
+    }
+
+    @GraphQLField
+    public Info info() {
+        return new Info();
+    }
 }
 
 

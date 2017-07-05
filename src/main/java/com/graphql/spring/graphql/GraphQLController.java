@@ -1,4 +1,4 @@
-package com.graphql.spring.endpoints;
+package com.graphql.spring.graphql;
 
 import com.graphql.spring.graphql.RepositorySchema;
 import org.json.JSONObject;

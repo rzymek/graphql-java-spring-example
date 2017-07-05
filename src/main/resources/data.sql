@@ -1,10 +1,6 @@
-INSERT INTO store(
- 	id, address, name, owner)
- 	VALUES (1, 'Hackensack', 'Test', 1);
-INSERT INTO store(
- 	id, address, name, owner)
- 	VALUES (2, 'Washington', 'Walmart', 1);
+INSERT INTO store(id, name)	VALUES (1, 'Walmart');
+INSERT INTO store(id, name)	VALUES (2, '7/11');
 
-INSERT INTO product(
-    id, description, name, price, score, store_id)
-    VALUES (1, 'test product description', 'test product name', 10.99, 4.5, 1);
+INSERT INTO product(id, name, price, store_id) VALUES (1, 'product 1', 10.99, 1);
+INSERT INTO product(id, name, price, store_id) VALUES (2, 'product 2', 12.99, 1);
+INSERT INTO product(id, name, price, store_id) VALUES (3, 'product 3', 13.99, 2);
