@@ -33,7 +33,6 @@ public class RepositorySchema {
 
     private GraphQL createGraphQLSchema() throws IllegalAccessException, InstantiationException, NoSuchMethodException {
         GraphQLObjectType queryObject = GraphQLAnnotations.object(Query.class);
-
         return new GraphQL(newSchema().query(queryObject).build());
     }
 

@@ -1,6 +1,5 @@
 package com.graphql.spring.graphql;
 
-import com.graphql.spring.graphql.RepositorySchema;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,7 @@ public class GraphQLController {
     @RequestMapping(value = "/graphql", method = RequestMethod.POST)
     public Object graphql(@RequestBody String input) throws IllegalAccessException, NoSuchMethodException, InstantiationException {
         String queryString = getQueryString(input);
-        Object execute = repositorySchema.execute(queryString);
-        return execute;
+        return repositorySchema.execute(queryString);
     }
 
     private static String getQueryString(String input) {

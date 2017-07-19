@@ -5,6 +5,7 @@ import com.graphql.spring.jpa.Product;
 import com.graphql.spring.jpa.Store;
 import com.graphql.spring.jpa.repositories.ProductRepository;
 import com.graphql.spring.jpa.repositories.StoreRepository;
+import graphql.annotations.GraphQLDescription;
 import graphql.annotations.GraphQLField;
 import graphql.annotations.GraphQLName;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,7 @@ public class Query {
     }
 
     @GraphQLField
+    @GraphQLDescription("server stats")
     public Info info() {
         return new Info();
     }
