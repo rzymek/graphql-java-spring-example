@@ -1,42 +1,49 @@
 package com.graphql.spring.graphql;
 
+import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.annotations.GraphQLAnnotations;
-import graphql.schema.GraphQLObjectType;
+import graphql.schema.GraphQLSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
-import static graphql.schema.GraphQLSchema.newSchema;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Component
 public class RepositorySchema {
 
-    private Query query;
-
-    private GraphQL graphQL;
+    private final Query queryRoot;
+    private final GraphQL graphQL;
+    private final Mutations mutationsRoot;
 
     @Autowired
-    public RepositorySchema(Query query) throws IllegalAccessException, NoSuchMethodException, InstantiationException {
-        this.query = query;
+    public RepositorySchema(Query query, Mutations mutations)
+            throws IllegalAccessException, NoSuchMethodException, InstantiationException {
+        this.queryRoot = query;
+        this.mutationsRoot = mutations;
         this.graphQL = createGraphQLSchema();
     }
 
-    public Object execute(String queryString) {
-        if (!isIntrospectionQuery(queryString)) {
-            return graphQL.execute(queryString, query).getData();
-        } else {
-            return Collections.singletonMap("data", graphQL.execute(queryString).getData());
-        }
+    public ExecutionResult execute(String query, String operationName, Map<String, Object> variables) {
+        Object root = isMutation(query, operationName) ? mutationsRoot : queryRoot;
+        return graphQL.execute(query, operationName, root, variables);
     }
 
     private GraphQL createGraphQLSchema() throws IllegalAccessException, InstantiationException, NoSuchMethodException {
-        GraphQLObjectType queryObject = GraphQLAnnotations.object(Query.class);
-        return new GraphQL(newSchema().query(queryObject).build());
+        GraphQLSchema schema = GraphQLSchema.newSchema()
+                .query(GraphQLAnnotations.object(Query.class))
+                .mutation(GraphQLAnnotations.object(Mutations.class))
+                .build();
+        return GraphQL.newGraphQL(schema)
+                .build();
     }
 
-    private static boolean isIntrospectionQuery(String queryString) {
-        return queryString.contains("IntrospectionQuery");
+    private boolean isMutation(String query, String operationName) {
+        String name = Optional.ofNullable(operationName).orElse("");
+        return Pattern.compile("mutation +" + Pattern.quote(name), Pattern.CASE_INSENSITIVE)
+                .matcher(query)
+                .find();
     }
 }

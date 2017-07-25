@@ -1,10 +1,13 @@
 package com.graphql.spring.jpa;
 
 import graphql.annotations.GraphQLField;
+import graphql.annotations.GraphQLName;
+import graphql.annotations.GraphQLType;
 
 import javax.persistence.*;
 
 @Entity
+@GraphQLName("Product")
 public class Product {
     private int id;
     private Store store;
@@ -18,7 +21,7 @@ public class Product {
         return store;
     }
 
-    @Id
+    @Id @GeneratedValue
     @GraphQLField
     public int getId() {
         return id;

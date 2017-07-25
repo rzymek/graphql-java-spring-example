@@ -36,5 +36,10 @@ public class Info {
             key = entry.getKey().toString();
             value = Objects.toString(entry.getValue());
         }
+
+        public Pair(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
     }
 }
