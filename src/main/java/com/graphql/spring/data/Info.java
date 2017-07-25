@@ -5,8 +5,6 @@ import graphql.annotations.GraphQLName;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,20 +24,4 @@ public class Info {
                 .collect(toList());
     }
 
-    public static class Pair {
-        @GraphQLField
-        public String key;
-        @GraphQLField
-        public String value;
-
-        public Pair(Map.Entry<Object, Object> entry) {
-            key = entry.getKey().toString();
-            value = Objects.toString(entry.getValue());
-        }
-
-        public Pair(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
 }

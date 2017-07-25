@@ -1,6 +1,6 @@
 package com.graphql.spring.graphql;
 
-import com.graphql.spring.data.Info;
+import com.graphql.spring.data.Pair;
 import com.graphql.spring.jpa.Product;
 import com.graphql.spring.jpa.repositories.ProductRepository;
 import com.graphql.spring.jpa.repositories.StoreRepository;
@@ -20,9 +20,9 @@ public class Mutations {
     }
 
     @GraphQLField
-    public Info.Pair setProperty(@GraphQLName("key") String key, @GraphQLName("value") String value) {
+    public Pair setProperty(@GraphQLName("key") String key, @GraphQLName("value") String value) {
         System.setProperty(key, value);
-        return new Info.Pair(key, value);
+        return new Pair(key, value);
     }
 
     @GraphQLField
