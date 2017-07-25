@@ -1,4 +1,4 @@
-package com.graphql.spring.graphql;
+package com.graphql.spring.graphql.root;
 
 import graphql.annotations.GraphQLField;
 

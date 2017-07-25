@@ -17,7 +17,7 @@ public class GraphQLController {
     private static final Logger log = LoggerFactory.getLogger(GraphQLController.class);
 
     @Autowired
-    private RepositorySchema repositorySchema;
+    private GraphQLExecutor executor;
 
     @RequestMapping(value = "/graphql", method = RequestMethod.POST)
     public Map<String, Object> graphql(@RequestBody Map<String, Object> request) {
@@ -26,7 +26,7 @@ public class GraphQLController {
         Map<String, Object> variables = (Map<String, Object>)
                 Optional.ofNullable(request.get("variables")).orElse(Collections.emptyMap());
 
-        ExecutionResult executionResult = repositorySchema.execute(query, operationName, variables);
+        ExecutionResult executionResult = executor.execute(query, operationName, variables);
 
         Map<String, Object> result = new LinkedHashMap<>();
         if (!executionResult.getErrors().isEmpty()) {

@@ -14,15 +14,14 @@ public class Product {
     private String name;
     private double price;
 
-    @Access(AccessType.PROPERTY)
     @GraphQLField
     @ManyToOne(fetch = FetchType.LAZY)
     public Store getStore() {
         return store;
     }
 
-    @Id @GeneratedValue
     @GraphQLField
+    @Id @GeneratedValue
     public int getId() {
         return id;
     }

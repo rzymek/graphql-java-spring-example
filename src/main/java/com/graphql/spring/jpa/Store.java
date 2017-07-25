@@ -11,7 +11,7 @@ public class Store {
     private String name;
     private List<Product> products;
 
-    @Id
+    @Id @GeneratedValue
     @GraphQLField
     public int getId() {
         return id;
@@ -23,7 +23,6 @@ public class Store {
     }
 
     @GraphQLField
-    @Access(AccessType.PROPERTY)
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
     public List<Product> getProducts() {
         return products;

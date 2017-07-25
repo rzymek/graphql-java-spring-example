@@ -1,4 +1,4 @@
-package com.graphql.spring.graphql;
+package com.graphql.spring.graphql.root;
 
 import com.graphql.spring.data.Info;
 import com.graphql.spring.jpa.Product;
