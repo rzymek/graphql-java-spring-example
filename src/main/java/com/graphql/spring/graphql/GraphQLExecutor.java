@@ -45,8 +45,11 @@ public class GraphQLExecutor {
     }
 
     private boolean isMutation(String query, String operationName) {
-        String name = Optional.ofNullable(operationName).orElse("");
-        return Pattern.compile("mutation +" + Pattern.quote(name), Pattern.CASE_INSENSITIVE)
+        String optionalName = Optional.ofNullable(operationName)
+                .map(Pattern::quote)
+                .map(pattern -> " +"+pattern)
+                .orElse("");
+        return Pattern.compile("mutation" + optionalName, Pattern.CASE_INSENSITIVE)
                 .matcher(query)
                 .find();
     }

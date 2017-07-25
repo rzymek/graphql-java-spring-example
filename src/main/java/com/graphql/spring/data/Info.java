@@ -27,13 +27,4 @@ public class Info {
                 .map(Pair::new)
                 .collect(toList());
     }
-
-    @GraphQLField
-    public List<String> listDir(@GraphQLName("dir") String dir) throws IOException {
-        Path path = Paths.get(dir == null ? "." : dir);
-        return Files.list(path)
-                .map(Path::toString)
-                .collect(toList());
-    }
-
 }
