@@ -3,10 +3,6 @@ package com.graphql.spring.data;
 import graphql.annotations.GraphQLField;
 import graphql.annotations.GraphQLName;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,8 +10,8 @@ import static java.util.stream.Collectors.toList;
 
 public class Info {
     @GraphQLField
-    public String serverTime() {
-        return LocalDateTime.now().toString();
+    public TimeFormat serverTime() {
+        return new TimeFormat(LocalDateTime.now());
     }
 
     @GraphQLField
